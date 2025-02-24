@@ -3,26 +3,26 @@ let dbUrl = 'https://jsonplaceholder.typicode.com/posts';
 let xhr = new XMLHttpRequest();
 
 const getData = (url) => {
-  fetch(url)
+  return fetch(url)
     .then((response) => response.json())
-    .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
+
 const sendData = (url, data) => {
   fetch(url, {
     method: 'POST',
-    body: data,
+    body: JSON.stringify(data),
     headers: {
       'Content-Type': 'application/json',
     },
   })
     .then((response) => response.json())
-    .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
 
-user = getData('db.json');
-sendData(dbUrl, user);
+getData('db.json').then((data) => {
+  sendData(dbUrl, data);
+});
 
 xhr.upload.onprogress = function (event) {
   console.log(`Отправлено ${event.loaded} из ${event.total}`);
